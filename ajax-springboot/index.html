@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+</head>
+<body>
+
+<br>
+<div class="row">
+
+  <div class="container">
+    <h3 class="text-center">List of Users</h3>
+    <hr>
+    <div class="container text-left">
+
+      <a href="/add.html" class="btn btn-success">Add
+        New User</a>
+    </div>
+    <br>
+    <table id="table" class="table table-bordered">
+      <thead>
+
+      <tr >
+        <td ></td>
+      </tr>
+      </thead>
+    </table>
+    <!-- } -->
+    </tbody>
+
+    </table>
+  </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+
+  $(document).ready(function () {
+    getProduct();
+    })
+  function getProduct() {
+    $.get("http://localhost:8080/product/v1/all", function (res) {
+      console.log(res);
+      var html_li = `<tr>
+        <th>name</th>
+        <th>price</th>
+        <th>quantity</th>
+        <th>Action</th>
+      </tr>`
+      for (var j = 0; j < res.data.length; j++) {
+        html_li += `
+                   <tr>
+                    <td>${res.data[j].name}</td>
+                    <td>${res.data[j].price}</td>
+                    <td>${res.data[j].quantity}</td>
+                    <td><button onclick="sell(${res.data[j].id})">sell</button></td>
+                    </tr>`
+        $("#table").html(html_li);
+        console.log(res.data.name)
+
+      }
+    })
+  }
+
+  function sell(id)
+  {
+    var api_update = "http://localhost:8080/product/v1/sell/" + id;
+    $.get(api_update);
+    getProduct()
+  }
+
+</script>
+</body>
+</html>

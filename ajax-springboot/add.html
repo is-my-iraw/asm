@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+<button onclick="showFormAdd()">them moi</button>
+<div id="display">
+
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+    function showFormAdd(){
+        let form = '<input type="text" id="name">\n' +
+            '<input type="text" id="price">\n' +
+            '<input type="text" id="quantity">\n' +
+            '<button onclick="saveStudent()">Them</button>'
+        document.getElementById("display").innerHTML = form;
+    }
+    function saveStudent(){
+        let name = document.getElementById("name").value;
+        let price = document.getElementById("price").value;
+        let quantity = document.getElementById("quantity").value;
+        let nal = {
+            name: name,
+            price: price,
+            quantity: quantity
+        }
+        console.log(nal)
+        $.ajax({
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            type:'POST',
+            url:'http://localhost:8080/product/v1/create',
+            data: JSON.stringify(nal),
+            success: alert("thanh cong"),
+            error: function (error){
+                console.log(error)
+            }
+        })
+    }
+</script>
+</body>
+</html>
